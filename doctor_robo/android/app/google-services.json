@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "214754856600",
+    "project_id": "doctor-robo",
+    "storage_bucket": "doctor-robo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:214754856600:android:2042f526ac24b6453b0aed",
+        "android_client_info": {
+          "package_name": "com.example.doctor_robo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "214754856600-8klmsojrcl4rlpgpgjkvu5obhllh9qiu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhZxsFsu9dSYW7LvWiKIICN5q3hRVHVkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "214754856600-8klmsojrcl4rlpgpgjkvu5obhllh9qiu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
