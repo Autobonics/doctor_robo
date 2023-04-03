@@ -8,6 +8,7 @@ import 'dart:ui' as _i6;
 
 import 'package:cloud_firestore/cloud_firestore.dart' as _i2;
 import 'package:doctor_robo/models/appuser.dart' as _i8;
+import 'package:doctor_robo/services/agora_service.dart' as _i10;
 import 'package:doctor_robo/services/firestore_service.dart' as _i7;
 import 'package:doctor_robo/services/user_service.dart' as _i9;
 import 'package:flutter/material.dart' as _i4;
@@ -694,17 +695,47 @@ class MockUserService extends _i1.Mock implements _i9.UserService {
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  void setUser(_i8.AppUser? user) => super.noSuchMethod(
+  void logout() => super.noSuchMethod(
         Invocation.method(
-          #setUser,
-          [user],
+          #logout,
+          [],
         ),
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<bool> fetchUser() => (super.noSuchMethod(
+  _i5.Future<String?> createUser(_i8.AppUser? user) => (super.noSuchMethod(
+        Invocation.method(
+          #createUser,
+          [user],
+        ),
+        returnValue: _i5.Future<String?>.value(),
+        returnValueForMissingStub: _i5.Future<String?>.value(),
+      ) as _i5.Future<String?>);
+  @override
+  _i5.Future<_i8.AppUser?> fetchUser() => (super.noSuchMethod(
         Invocation.method(
           #fetchUser,
+          [],
+        ),
+        returnValue: _i5.Future<_i8.AppUser?>.value(),
+        returnValueForMissingStub: _i5.Future<_i8.AppUser?>.value(),
+      ) as _i5.Future<_i8.AppUser?>);
+}
+
+/// A class which mocks [AgoraService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAgoraService extends _i1.Mock implements _i10.AgoraService {
+  @override
+  bool get isPermissionGranted => (super.noSuchMethod(
+        Invocation.getter(#isPermissionGranted),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  _i5.Future<bool> getPermission() => (super.noSuchMethod(
+        Invocation.method(
+          #getPermission,
           [],
         ),
         returnValue: _i5.Future<bool>.value(false),

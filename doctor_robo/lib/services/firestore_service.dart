@@ -3,11 +3,15 @@ import 'package:doctor_robo/app/app.logger.dart';
 import 'package:doctor_robo/constants/app_keys.dart';
 import 'package:doctor_robo/models/appuser.dart';
 
+const tokenDocId = "doctor_token";
+
 class FirestoreService {
   final log = getLogger('FirestoreApi');
 
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection(UsersFirestoreKey);
+  final CollectionReference tokenCollection =
+      FirebaseFirestore.instance.collection(TokenFirestoreKey);
 
   // final CollectionReference regionsCollection = FirebaseFirestore.instance.collection(RegionsFirestoreKey);
 
@@ -42,6 +46,32 @@ class FirestoreService {
       log.e("Error no user");
       return null;
     }
+  }
+
+  Future<bool> updateToken({required String token}) async {
+    log.i('token:$token');
+    try {
+      final tokenDocument = tokenCollection.doc(tokenDocId);
+      await tokenDocument.set({"token": token});
+      log.v('token added at ${tokenDocument.path}');
+      return true;
+    } catch (error) {
+      log.e("Error $error");
+      return false;
+    }
+  }
+
+  Future<String?> getToken() async {
+    final tokenDoc = await tokenCollection.doc(tokenDocId).get();
+    if (!tokenDoc.exists) {
+      log.v('We have no token in our database');
+      return null;
+    }
+
+    final tokenData = tokenDoc.data();
+    log.v('User found. Data: $tokenData');
+
+    return (tokenData! as Map<String, dynamic>)['token'];
   }
 
   /// Saves the address passed in to the backend for the user and also sets

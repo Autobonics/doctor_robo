@@ -23,7 +23,7 @@ class UserService {
       user: user,
       keyword: _createKeyWords(user.fullName),
     );
-    if (value) {
+    if (!value) {
       return "Error uploading data";
     } else {
       return null;
