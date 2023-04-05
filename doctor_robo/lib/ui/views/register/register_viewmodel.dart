@@ -17,13 +17,32 @@ class RegisterViewModel extends FormViewModel {
   final _navigationService = locator<NavigationService>();
   final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
 
+  late String _userRole;
+  String get userRole => _userRole;
+
+  void onModelReady(String userRole) {
+    _userRole = userRole;
+  }
+
   void registerUser() async {
-    if (isFormValid &&
-        emailValue != null &&
-        passwordValue != null &&
-        nameValue != null &&
-        ageValue != null &&
-        genderValue != null) {
+    if ((_userRole == "doctor" &&
+            isFormValid &&
+            hasEmail &&
+            hasSpecialization &&
+            hasPassword &&
+            hasName &&
+            hasAge &&
+            hasGender) ||
+        !hasNameValidationMessage &&
+            !hasAgeValidationMessage &&
+            !hasGenderValidationMessage &&
+            !hasEmailValidationMessage &&
+            !hasPasswordValidationMessage &&
+            hasEmail &&
+            hasPassword &&
+            hasName &&
+            hasAge &&
+            hasGender) {
       setBusy(true);
       log.i("email and pass valid");
       log.i(emailValue!);
@@ -34,14 +53,19 @@ class RegisterViewModel extends FormViewModel {
         password: passwordValue!,
       );
       if (result.user != null) {
-        String? error = await _userService.createUser(AppUser(
-          id: result.user!.uid,
-          fullName: nameValue!,
-          email: result.user!.email!,
-          age: int.parse(ageValue!),
-          gender: genderValue!,
-          userRole: "patient",
-        ));
+        String? error = await _userService.createUpdateUser(
+          AppUser(
+            id: result.user!.uid,
+            fullName: nameValue!,
+            specialization: specializationValue!,
+            token: "",
+            tokenTime: DateTime(2022),
+            email: result.user!.email!,
+            age: int.parse(ageValue!),
+            gender: genderValue!,
+            userRole: _userRole,
+          ),
+        );
         if (error == null) {
           _navigationService.back();
         } else {
@@ -49,7 +73,7 @@ class RegisterViewModel extends FormViewModel {
           _bottomSheetService.showCustomSheet(
             variant: BottomSheetType.alert,
             title: "Upload Error",
-            description: error ?? "Enter valid credentials",
+            description: error,
           );
         }
       } else {

@@ -99,11 +99,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i4.LoginView: (data) {
-      final args = data.getArgs<LoginViewArguments>(
-        orElse: () => const LoginViewArguments(),
-      );
+      final args = data.getArgs<LoginViewArguments>(nullOk: false);
       return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => _i4.LoginView(key: args.key),
+        builder: (context) =>
+            _i4.LoginView(key: args.key, userRole: args.userRole),
         settings: data,
         maintainState: false,
       );
@@ -137,11 +136,10 @@ class StackedRouter extends _i1.RouterBase {
       );
     },
     _i9.RegisterView: (data) {
-      final args = data.getArgs<RegisterViewArguments>(
-        orElse: () => const RegisterViewArguments(),
-      );
+      final args = data.getArgs<RegisterViewArguments>(nullOk: false);
       return _i10.MaterialPageRoute<dynamic>(
-        builder: (context) => _i9.RegisterView(key: args.key),
+        builder: (context) =>
+            _i9.RegisterView(key: args.key, userRole: args.userRole),
         settings: data,
         maintainState: false,
       );
@@ -155,24 +153,34 @@ class StackedRouter extends _i1.RouterBase {
 }
 
 class LoginViewArguments {
-  const LoginViewArguments({this.key});
+  const LoginViewArguments({
+    this.key,
+    required this.userRole,
+  });
 
   final _i10.Key? key;
 
+  final String userRole;
+
   @override
   String toString() {
-    return '{"key": "$key"}';
+    return '{"key": "$key", "userRole": "$userRole"}';
   }
 }
 
 class RegisterViewArguments {
-  const RegisterViewArguments({this.key});
+  const RegisterViewArguments({
+    this.key,
+    required this.userRole,
+  });
 
   final _i10.Key? key;
 
+  final String userRole;
+
   @override
   String toString() {
-    return '{"key": "$key"}';
+    return '{"key": "$key", "userRole": "$userRole"}';
   }
 }
 
@@ -207,6 +215,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
 
   Future<dynamic> navigateToLoginView({
     _i10.Key? key,
+    required String userRole,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -214,7 +223,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition,
   }) async {
     return navigateTo<dynamic>(Routes.loginView,
-        arguments: LoginViewArguments(key: key),
+        arguments: LoginViewArguments(key: key, userRole: userRole),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -279,6 +288,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
 
   Future<dynamic> navigateToRegisterView({
     _i10.Key? key,
+    required String userRole,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -286,7 +296,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition,
   }) async {
     return navigateTo<dynamic>(Routes.registerView,
-        arguments: RegisterViewArguments(key: key),
+        arguments: RegisterViewArguments(key: key, userRole: userRole),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -323,6 +333,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
 
   Future<dynamic> replaceWithLoginView({
     _i10.Key? key,
+    required String userRole,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -330,7 +341,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition,
   }) async {
     return replaceWith<dynamic>(Routes.loginView,
-        arguments: LoginViewArguments(key: key),
+        arguments: LoginViewArguments(key: key, userRole: userRole),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -395,6 +406,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
 
   Future<dynamic> replaceWithRegisterView({
     _i10.Key? key,
+    required String userRole,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -402,7 +414,7 @@ extension NavigatorStateExtension on _i11.NavigationService {
         transition,
   }) async {
     return replaceWith<dynamic>(Routes.registerView,
-        arguments: RegisterViewArguments(key: key),
+        arguments: RegisterViewArguments(key: key, userRole: userRole),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

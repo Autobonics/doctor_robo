@@ -511,7 +511,8 @@ class MockDialogService extends _i1.Mock implements _i3.DialogService {
       _i4.BuildContext,
       _i3.DialogRequest<dynamic>,
       dynamic Function(_i3.DialogResponse<dynamic>),
-    )? builder,
+    )?
+        builder,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -655,6 +656,18 @@ class MockFirestoreService extends _i1.Mock implements _i7.FirestoreService {
         ),
       ) as _i2.CollectionReference<Object?>);
   @override
+  _i2.CollectionReference<Object?> get tokenCollection => (super.noSuchMethod(
+        Invocation.getter(#tokenCollection),
+        returnValue: _FakeCollectionReference_0<Object?>(
+          this,
+          Invocation.getter(#tokenCollection),
+        ),
+        returnValueForMissingStub: _FakeCollectionReference_0<Object?>(
+          this,
+          Invocation.getter(#tokenCollection),
+        ),
+      ) as _i2.CollectionReference<Object?>);
+  @override
   _i5.Future<bool> createUser({
     required _i8.AppUser? user,
     required dynamic keyword,
@@ -682,6 +695,25 @@ class MockFirestoreService extends _i1.Mock implements _i7.FirestoreService {
         returnValue: _i5.Future<_i8.AppUser?>.value(),
         returnValueForMissingStub: _i5.Future<_i8.AppUser?>.value(),
       ) as _i5.Future<_i8.AppUser?>);
+  @override
+  _i5.Future<bool> updateToken({required String? token}) => (super.noSuchMethod(
+        Invocation.method(
+          #updateToken,
+          [],
+          {#token: token},
+        ),
+        returnValue: _i5.Future<bool>.value(false),
+        returnValueForMissingStub: _i5.Future<bool>.value(false),
+      ) as _i5.Future<bool>);
+  @override
+  _i5.Future<String?> getToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getToken,
+          [],
+        ),
+        returnValue: _i5.Future<String?>.value(),
+        returnValueForMissingStub: _i5.Future<String?>.value(),
+      ) as _i5.Future<String?>);
 }
 
 /// A class which mocks [UserService].
@@ -703,7 +735,8 @@ class MockUserService extends _i1.Mock implements _i9.UserService {
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<String?> createUser(_i8.AppUser? user) => (super.noSuchMethod(
+  _i5.Future<String?> createUpdateUser(_i8.AppUser? user) =>
+      (super.noSuchMethod(
         Invocation.method(
           #createUser,
           [user],
@@ -733,6 +766,18 @@ class MockAgoraService extends _i1.Mock implements _i10.AgoraService {
         returnValueForMissingStub: false,
       ) as bool);
   @override
+  bool get localUserJoined => (super.noSuchMethod(
+        Invocation.getter(#localUserJoined),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  int get listenersCount => (super.noSuchMethod(
+        Invocation.getter(#listenersCount),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+  @override
   _i5.Future<bool> getPermission() => (super.noSuchMethod(
         Invocation.method(
           #getPermission,
@@ -741,4 +786,64 @@ class MockAgoraService extends _i1.Mock implements _i10.AgoraService {
         returnValue: _i5.Future<bool>.value(false),
         returnValueForMissingStub: _i5.Future<bool>.value(false),
       ) as _i5.Future<bool>);
+  @override
+  _i5.Future<String> getToken(bool? isNew) => (super.noSuchMethod(
+        Invocation.method(
+          #getToken,
+          [isNew],
+        ),
+        returnValue: _i5.Future<String>.value(''),
+        returnValueForMissingStub: _i5.Future<String>.value(''),
+      ) as _i5.Future<String>);
+  @override
+  _i5.Future<void> initAgora() => (super.noSuchMethod(
+        Invocation.method(
+          #initAgora,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+  @override
+  _i5.Future<String> fetchToken() => (super.noSuchMethod(
+        Invocation.method(
+          #fetchToken,
+          [],
+        ),
+        returnValue: _i5.Future<String>.value(''),
+        returnValueForMissingStub: _i5.Future<String>.value(''),
+      ) as _i5.Future<String>);
+  @override
+  void listenToReactiveValues(List<dynamic>? reactiveValues) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #listenToReactiveValues,
+          [reactiveValues],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void removeListener(void Function()? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

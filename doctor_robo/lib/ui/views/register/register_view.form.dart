@@ -12,6 +12,7 @@ import 'package:stacked/stacked.dart';
 
 const String NameValueKey = 'name';
 const String AgeValueKey = 'age';
+const String SpecializationValueKey = 'specialization';
 const String GenderValueKey = 'gender';
 const String EmailValueKey = 'email';
 const String PasswordValueKey = 'password';
@@ -30,6 +31,7 @@ final Map<String, FocusNode> _RegisterViewFocusNodes = {};
 final Map<String, String? Function(String?)?> _RegisterViewTextValidations = {
   NameValueKey: FormValidators.validateText,
   AgeValueKey: FormValidators.validateNumber,
+  SpecializationValueKey: FormValidators.validateText,
   EmailValueKey: FormValidators.validateEmail,
   PasswordValueKey: FormValidators.validatePassword,
 };
@@ -39,12 +41,16 @@ mixin $RegisterView on StatelessWidget {
       _getFormTextEditingController(NameValueKey);
   TextEditingController get ageController =>
       _getFormTextEditingController(AgeValueKey);
+  TextEditingController get specializationController =>
+      _getFormTextEditingController(SpecializationValueKey);
   TextEditingController get emailController =>
       _getFormTextEditingController(EmailValueKey);
   TextEditingController get passwordController =>
       _getFormTextEditingController(PasswordValueKey);
   FocusNode get nameFocusNode => _getFormFocusNode(NameValueKey);
   FocusNode get ageFocusNode => _getFormFocusNode(AgeValueKey);
+  FocusNode get specializationFocusNode =>
+      _getFormFocusNode(SpecializationValueKey);
   FocusNode get emailFocusNode => _getFormFocusNode(EmailValueKey);
   FocusNode get passwordFocusNode => _getFormFocusNode(PasswordValueKey);
 
@@ -71,6 +77,7 @@ mixin $RegisterView on StatelessWidget {
   void syncFormWithViewModel(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
     ageController.addListener(() => _updateFormData(model));
+    specializationController.addListener(() => _updateFormData(model));
     emailController.addListener(() => _updateFormData(model));
     passwordController.addListener(() => _updateFormData(model));
   }
@@ -82,6 +89,7 @@ mixin $RegisterView on StatelessWidget {
   void listenToFormUpdated(FormViewModel model) {
     nameController.addListener(() => _updateFormData(model));
     ageController.addListener(() => _updateFormData(model));
+    specializationController.addListener(() => _updateFormData(model));
     emailController.addListener(() => _updateFormData(model));
     passwordController.addListener(() => _updateFormData(model));
   }
@@ -99,6 +107,7 @@ mixin $RegisterView on StatelessWidget {
         ..addAll({
           NameValueKey: nameController.text,
           AgeValueKey: ageController.text,
+          SpecializationValueKey: specializationController.text,
           EmailValueKey: emailController.text,
           PasswordValueKey: passwordController.text,
         }),
@@ -113,6 +122,7 @@ mixin $RegisterView on StatelessWidget {
       model.setValidationMessages({
         NameValueKey: _getValidationMessage(NameValueKey),
         AgeValueKey: _getValidationMessage(AgeValueKey),
+        SpecializationValueKey: _getValidationMessage(SpecializationValueKey),
         EmailValueKey: _getValidationMessage(EmailValueKey),
         PasswordValueKey: _getValidationMessage(PasswordValueKey),
       });
@@ -147,6 +157,8 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages.values.every((element) => element == null);
   String? get nameValue => this.formValueMap[NameValueKey] as String?;
   String? get ageValue => this.formValueMap[AgeValueKey] as String?;
+  String? get specializationValue =>
+      this.formValueMap[SpecializationValueKey] as String?;
   String? get genderValue => this.formValueMap[GenderValueKey] as String?;
   String? get emailValue => this.formValueMap[EmailValueKey] as String?;
   String? get passwordValue => this.formValueMap[PasswordValueKey] as String?;
@@ -174,6 +186,21 @@ extension ValueProperties on FormViewModel {
 
     if (_RegisterViewTextEditingControllers.containsKey(AgeValueKey)) {
       _RegisterViewTextEditingControllers[AgeValueKey]?.text = value ?? '';
+    }
+  }
+
+  set specializationValue(String? value) {
+    this.setData(
+      this.formValueMap
+        ..addAll({
+          SpecializationValueKey: value,
+        }),
+    );
+
+    if (_RegisterViewTextEditingControllers.containsKey(
+        SpecializationValueKey)) {
+      _RegisterViewTextEditingControllers[SpecializationValueKey]?.text =
+          value ?? '';
     }
   }
 
@@ -209,6 +236,9 @@ extension ValueProperties on FormViewModel {
   bool get hasAge =>
       this.formValueMap.containsKey(AgeValueKey) &&
       (ageValue?.isNotEmpty ?? false);
+  bool get hasSpecialization =>
+      this.formValueMap.containsKey(SpecializationValueKey) &&
+      (specializationValue?.isNotEmpty ?? false);
   bool get hasGender => this.formValueMap.containsKey(GenderValueKey);
   bool get hasEmail =>
       this.formValueMap.containsKey(EmailValueKey) &&
@@ -221,6 +251,9 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[NameValueKey]?.isNotEmpty ?? false;
   bool get hasAgeValidationMessage =>
       this.fieldsValidationMessages[AgeValueKey]?.isNotEmpty ?? false;
+  bool get hasSpecializationValidationMessage =>
+      this.fieldsValidationMessages[SpecializationValueKey]?.isNotEmpty ??
+      false;
   bool get hasGenderValidationMessage =>
       this.fieldsValidationMessages[GenderValueKey]?.isNotEmpty ?? false;
   bool get hasEmailValidationMessage =>
@@ -232,6 +265,8 @@ extension ValueProperties on FormViewModel {
       this.fieldsValidationMessages[NameValueKey];
   String? get ageValidationMessage =>
       this.fieldsValidationMessages[AgeValueKey];
+  String? get specializationValidationMessage =>
+      this.fieldsValidationMessages[SpecializationValueKey];
   String? get genderValidationMessage =>
       this.fieldsValidationMessages[GenderValueKey];
   String? get emailValidationMessage =>
@@ -241,6 +276,7 @@ extension ValueProperties on FormViewModel {
   void clearForm() {
     nameValue = '';
     ageValue = '';
+    specializationValue = '';
     emailValue = '';
     passwordValue = '';
   }
@@ -255,6 +291,8 @@ extension Methods on FormViewModel {
       this.fieldsValidationMessages[NameValueKey] = validationMessage;
   setAgeValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[AgeValueKey] = validationMessage;
+  setSpecializationValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[SpecializationValueKey] = validationMessage;
   setGenderValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[GenderValueKey] = validationMessage;
   setEmailValidationMessage(String? validationMessage) =>

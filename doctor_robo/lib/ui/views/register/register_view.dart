@@ -15,6 +15,10 @@ import 'register_view.form.dart';
     name: 'age',
     validator: FormValidators.validateNumber,
   ),
+  FormTextField(
+    name: 'specialization',
+    validator: FormValidators.validateText,
+  ),
   FormDropdownField(
     name: 'gender',
     items: [
@@ -42,7 +46,8 @@ import 'register_view.form.dart';
   ),
 ])
 class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
-  RegisterView({Key? key}) : super(key: key);
+  final String userRole;
+  RegisterView({Key? key, required this.userRole}) : super(key: key);
 
   @override
   Widget builder(
@@ -117,6 +122,29 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                         ),
                       ),
                       const SizedBox(height: 30),
+                      if (viewModel.userRole == "doctor")
+                        Column(
+                          children: [
+                            ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                maxWidth: 350,
+                              ),
+                              child: TextField(
+                                autofocus: true,
+                                decoration: InputDecoration(
+                                  labelText: 'Specialization',
+                                  errorText:
+                                      viewModel.specializationValidationMessage,
+                                  errorMaxLines: 2,
+                                ),
+                                controller: specializationController,
+                                keyboardType: TextInputType.text,
+                                focusNode: specializationFocusNode,
+                              ),
+                            ),
+                            const SizedBox(height: 30),
+                          ],
+                        ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -199,6 +227,7 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   @override
   void onViewModelReady(RegisterViewModel viewModel) {
     syncFormWithViewModel(viewModel);
+    viewModel.onModelReady(userRole);
   }
 
   @override

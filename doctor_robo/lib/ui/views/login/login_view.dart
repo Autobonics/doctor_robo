@@ -17,7 +17,8 @@ import 'login_viewmodel.dart';
   ),
 ])
 class LoginView extends StackedView<LoginViewModel> with $LoginView {
-  LoginView({Key? key}) : super(key: key);
+  final String userRole;
+  LoginView({Key? key, required this.userRole}) : super(key: key);
 
   @override
   Widget builder(
@@ -116,6 +117,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
   @override
   void onViewModelReady(LoginViewModel viewModel) {
     syncFormWithViewModel(viewModel);
+    viewModel.onModelReady(userRole);
   }
 
   @override

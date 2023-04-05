@@ -5,6 +5,8 @@ import 'package:doctor_robo/app/app.bottomsheets.dart';
 import 'package:doctor_robo/app/app.locator.dart';
 import 'package:doctor_robo/app/app.logger.dart';
 import 'package:doctor_robo/constants/app_keys.dart';
+import 'package:doctor_robo/models/appuser.dart';
+import 'package:doctor_robo/services/user_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -18,7 +20,7 @@ const channel = "robot";
 class AgoraService with ListenableServiceMixin {
   final log = getLogger('AgoraService');
   final _bottomSheetService = locator<BottomSheetService>();
-  final _firestoreService = locator<FirestoreService>();
+  final _userService = locator<UserService>();
 
   ///Permission======================================
   final Permission _permissionCamera = Permission.camera;
@@ -81,34 +83,51 @@ class AgoraService with ListenableServiceMixin {
   int? get remoteUid => _remoteUid;
   bool _localUserJoined = false;
   bool get localUserJoined => _localUserJoined;
-  late RtcEngine _engine;
-  RtcEngine get engine => _engine;
+  RtcEngine? _engine;
+  RtcEngine? get engine => _engine;
 
-  Future<String> getToken(bool isNew) async {
-    String? token = isNew ? null : await _firestoreService.getToken();
+  Future<String> getToken(bool isNew, AppUser user) async {
+    DateTime now = DateTime.now();
+    log.i("Getting token");
+    // log.i("Time diff: ${now.difference(user.tokenTime).inHours}");
+    String? token = isNew
+        ? null
+        : now.difference(user.tokenTime).inHours < 24
+            ? user.token
+            : null;
     if (token == null) {
       token = await fetchToken();
-      _firestoreService.updateToken(token: token);
+      _userService.createUpdateUser(AppUser(
+        id: user.id,
+        fullName: user.fullName,
+        specialization: user.specialization,
+        token: token,
+        tokenTime: DateTime.now(),
+        email: user.email,
+        age: user.age,
+        gender: user.gender,
+        userRole: user.userRole,
+      ));
     }
     log.i("|||Token:$token|||");
     return token;
   }
 
-  Future<void> initAgora() async {
+  Future<void> initAgora(AppUser user) async {
     _remoteUid = null;
     _localUserJoined = false;
 
-    String? token = await getToken(false);
+    String? token = await getToken(false, user);
 
     //create the engine
     _engine = createAgoraRtcEngine();
 
-    await _engine.initialize(const RtcEngineContext(
+    await _engine!.initialize(const RtcEngineContext(
       appId: agoraAppID,
       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
     ));
 
-    _engine.registerEventHandler(
+    _engine!.registerEventHandler(
       RtcEngineEventHandler(
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           log.i("local user ${connection.localUid} joined");
@@ -132,17 +151,17 @@ class AgoraService with ListenableServiceMixin {
               '[onTokenPrivilegeWillExpire] connection: ${connection.toJson()}, token: $token');
 
           /// new token
-          String tokenNew = await getToken(true);
-          _engine.renewToken(tokenNew);
+          String tokenNew = await getToken(true, user);
+          _engine!.renewToken(tokenNew);
         },
       ),
     );
 
-    await _engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
-    await _engine.enableVideo();
-    await _engine.startPreview();
+    await _engine!.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
+    await _engine!.enableVideo();
+    await _engine!.startPreview();
 
-    await _engine.joinChannel(
+    await _engine!.joinChannel(
       token: token,
       channelId: channel,
       uid: 0,

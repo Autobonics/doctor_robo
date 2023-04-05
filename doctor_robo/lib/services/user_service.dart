@@ -15,10 +15,11 @@ class UserService {
   AppUser? get user => _user;
 
   void logout() {
+    _user = null;
     _authenticationService.logout();
   }
 
-  Future<String?> createUser(AppUser user) async {
+  Future<String?> createUpdateUser(AppUser user) async {
     bool value = await _firestoreService.createUser(
       user: user,
       keyword: _createKeyWords(user.fullName),

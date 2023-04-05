@@ -14,6 +14,12 @@ class LoginViewModel extends FormViewModel {
   final _navigationService = locator<NavigationService>();
   final BottomSheetService _bottomSheetService = locator<BottomSheetService>();
 
+  late String _userRole;
+
+  void onModelReady(String userRole) {
+    _userRole = userRole;
+  }
+
   void authenticateUser() async {
     if (isFormValid && emailValue != null && passwordValue != null) {
       setBusy(true);

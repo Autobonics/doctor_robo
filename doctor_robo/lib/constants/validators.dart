@@ -29,7 +29,7 @@ class FormValidators {
     }
 
     if (value.length < 3) {
-      return 'Enter valid name.';
+      return 'Enter valid text.';
     }
     return null;
   }
