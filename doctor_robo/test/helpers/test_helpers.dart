@@ -5,6 +5,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:doctor_robo/services/firestore_service.dart';
 import 'package:doctor_robo/services/user_service.dart';
 import 'package:doctor_robo/services/agora_service.dart';
+import 'package:doctor_robo/services/rtdb_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -16,6 +17,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<FirestoreService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<UserService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AgoraService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<RtdbService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -25,6 +27,7 @@ void registerServices() {
   getAndRegisterFirestoreService();
   getAndRegisterUserService();
   getAndRegisterAgoraService();
+  getAndRegisterRtdbService();
 // @stacked-mock-register
 }
 
@@ -96,6 +99,13 @@ MockAgoraService getAndRegisterAgoraService() {
   _removeRegistrationIfExists<AgoraService>();
   final service = MockAgoraService();
   locator.registerSingleton<AgoraService>(service);
+  return service;
+}
+
+MockRtdbService getAndRegisterRtdbService() {
+  _removeRegistrationIfExists<RtdbService>();
+  final service = MockRtdbService();
+  locator.registerSingleton<RtdbService>(service);
   return service;
 }
 // @stacked-mock-create

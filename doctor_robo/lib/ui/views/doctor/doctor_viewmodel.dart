@@ -3,7 +3,9 @@ import 'package:doctor_robo/app/app.locator.dart';
 import 'package:doctor_robo/app/app.logger.dart';
 import 'package:doctor_robo/app/app.router.dart';
 import 'package:doctor_robo/models/appuser.dart';
+import 'package:doctor_robo/models/device.dart';
 import 'package:doctor_robo/services/agora_service.dart';
+import 'package:doctor_robo/services/rtdb_service.dart';
 import 'package:doctor_robo/services/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -13,6 +15,7 @@ class DoctorViewModel extends ReactiveViewModel {
   final AgoraService _agoraService = locator<AgoraService>();
   final _userService = locator<UserService>();
   final _navigationService = locator<NavigationService>();
+  // final _dbService = locator<RtdbService>();
 
   AppUser? get user => _userService.user;
   bool get hasUser => _userService.hasLoggedInUser;
@@ -26,6 +29,9 @@ class DoctorViewModel extends ReactiveViewModel {
           log.i(_user.fullName);
           if (_user.userRole == "patient") {
             _navigationService.replaceWithHomeView();
+          } else {
+            // //Start device listening
+            // setupDevice();
           }
         } else {
           log.i("Error");

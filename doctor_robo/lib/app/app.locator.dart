@@ -15,6 +15,7 @@ import 'package:stacked_shared/stacked_shared.dart';
 
 import '../services/agora_service.dart';
 import '../services/firestore_service.dart';
+import '../services/rtdb_service.dart';
 import '../services/user_service.dart';
 
 final locator = StackedLocator.instance;
@@ -36,4 +37,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => FirestoreService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => AgoraService());
+  locator.registerLazySingleton(() => RtdbService());
 }

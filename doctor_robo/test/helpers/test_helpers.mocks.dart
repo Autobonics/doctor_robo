@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' as _i2;
 import 'package:doctor_robo/models/appuser.dart' as _i8;
 import 'package:doctor_robo/services/agora_service.dart' as _i10;
 import 'package:doctor_robo/services/firestore_service.dart' as _i7;
+import 'package:doctor_robo/services/rtdb_service.dart' as _i11;
 import 'package:doctor_robo/services/user_service.dart' as _i9;
 import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
@@ -511,8 +512,7 @@ class MockDialogService extends _i1.Mock implements _i3.DialogService {
       _i4.BuildContext,
       _i3.DialogRequest<dynamic>,
       dynamic Function(_i3.DialogResponse<dynamic>),
-    )?
-        builder,
+    )? builder,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -738,7 +738,7 @@ class MockUserService extends _i1.Mock implements _i9.UserService {
   _i5.Future<String?> createUpdateUser(_i8.AppUser? user) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createUser,
+          #createUpdateUser,
           [user],
         ),
         returnValue: _i5.Future<String?>.value(),
@@ -787,19 +787,26 @@ class MockAgoraService extends _i1.Mock implements _i10.AgoraService {
         returnValueForMissingStub: _i5.Future<bool>.value(false),
       ) as _i5.Future<bool>);
   @override
-  _i5.Future<String> getToken(bool? isNew) => (super.noSuchMethod(
+  _i5.Future<String> getToken(
+    bool? isNew,
+    _i8.AppUser? user,
+  ) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getToken,
-          [isNew],
+          [
+            isNew,
+            user,
+          ],
         ),
         returnValue: _i5.Future<String>.value(''),
         returnValueForMissingStub: _i5.Future<String>.value(''),
       ) as _i5.Future<String>);
   @override
-  _i5.Future<void> initAgora() => (super.noSuchMethod(
+  _i5.Future<void> initAgora(_i8.AppUser? user) => (super.noSuchMethod(
         Invocation.method(
           #initAgora,
-          [],
+          [user],
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
@@ -847,3 +854,8 @@ class MockAgoraService extends _i1.Mock implements _i10.AgoraService {
         returnValueForMissingStub: null,
       );
 }
+
+/// A class which mocks [RtdbService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockRtdbService extends _i1.Mock implements _i11.RtdbService {}

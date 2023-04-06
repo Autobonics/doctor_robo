@@ -6,7 +6,7 @@ import 'package:doctor_robo/models/device.dart';
 import 'package:doctor_robo/services/rtdb_service.dart';
 import 'package:stacked/stacked.dart';
 
-class HomeViewModel extends BaseViewModel {
+class OnlineStatusViewModel extends BaseViewModel {
   final log = getLogger('StatusWidget');
 
   final _dbService = locator<RtdbService>();

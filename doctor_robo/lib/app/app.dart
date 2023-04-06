@@ -15,6 +15,7 @@ import 'package:doctor_robo/ui/views/patient/patient_view.dart';
 import 'package:doctor_robo/ui/views/register/register_view.dart';
 import 'package:doctor_robo/ui/bottom_sheets/alert/alert_sheet.dart';
 import 'package:doctor_robo/services/agora_service.dart';
+import 'package:doctor_robo/services/rtdb_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -38,6 +39,7 @@ import 'package:doctor_robo/services/agora_service.dart';
     LazySingleton(classType: FirestoreService),
     LazySingleton(classType: UserService),
     LazySingleton(classType: AgoraService),
+    LazySingleton(classType: RtdbService),
 // @stacked-service
   ],
   bottomsheets: [

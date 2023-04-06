@@ -62,6 +62,7 @@ class PatientView extends StackedView<PatientViewModel> {
                                 engine: viewModel.engine,
                                 remoteUid: viewModel.remoteUid,
                                 localUserJoined: viewModel.localUserJoined,
+                                onStop: viewModel.leaveCall,
                               ),
                             ],
                           ),

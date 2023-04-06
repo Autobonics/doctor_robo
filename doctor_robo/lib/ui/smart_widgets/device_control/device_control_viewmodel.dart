@@ -6,34 +6,77 @@ import 'package:doctor_robo/models/device.dart';
 import 'package:doctor_robo/services/rtdb_service.dart';
 import 'package:stacked/stacked.dart';
 
-class OnlineStatusViewModel extends BaseViewModel {
-  final log = getLogger('StatusWidget');
-
+class DeviceControlViewModel extends ReactiveViewModel {
+  final log = getLogger('DeviceControlWidget');
   final _dbService = locator<RtdbService>();
 
-  DeviceReading? get node => _dbService.node;
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_dbService];
 
-  bool _isOnline = false;
-  bool get isOnline => _isOnline;
+  final int _servoMinAngle = 50;
+  int get servoMinAngle => _servoMinAngle;
+  final int _servoMaxAngle = 140;
+  int get servoMaxAngle => _servoMaxAngle;
 
-  bool isOnlineCheck(DateTime? time) {
-    if (time == null) return false;
-    final DateTime now = DateTime.now();
-    final difference = now.difference(time).inSeconds;
-    // log.i("Status $difference");
-    return difference >= 0 && difference <= 4;
+  void setServo1() {
+    if (_deviceData.servo1 == _servoMinAngle) {
+      _deviceData.servo1 = servoMaxAngle;
+    } else {
+      _deviceData.servo1 = _servoMinAngle;
+    }
+    setDeviceData();
+    notifyListeners();
   }
 
-  late Timer timer;
+  void setServo2() {
+    if (_deviceData.servo2 == _servoMinAngle) {
+      _deviceData.servo2 = servoMaxAngle;
+    } else {
+      _deviceData.servo2 = _servoMinAngle;
+    }
+    setDeviceData();
+    notifyListeners();
+  }
 
-  void setTimer() {
-    const oneSec = Duration(seconds: 1);
-    timer = Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        _isOnline = isOnlineCheck(node?.lastSeen);
-        notifyListeners();
-      },
-    );
+  void setServo3(double value) {
+    _deviceData.servo3 = value.toInt();
+    notifyListeners();
+    // setDeviceData();
+  }
+
+  ///RTDB======================================================
+  DeviceReading? get node => _dbService.node;
+  void setupDevice() {
+    log.i("Setting up listening from robot");
+    if (node == null) {
+      _dbService.setupNodeListening();
+    }
+    //Getting servo angle
+    getDeviceData();
+  }
+
+  DeviceData _deviceData = DeviceData(
+    servo1: 40,
+    servo2: 40,
+    servo3: 90,
+    isReadSensor: false,
+  );
+  DeviceData get deviceData => _deviceData;
+
+  void setDeviceData() {
+    _dbService.setDeviceData(_deviceData);
+  }
+
+  void getDeviceData() async {
+    setBusy(true);
+    DeviceData? deviceData = await _dbService.getDeviceData();
+    if (deviceData != null) {
+      _deviceData = DeviceData(
+          servo1: deviceData.servo1,
+          servo2: deviceData.servo2,
+          servo3: deviceData.servo3,
+          isReadSensor: deviceData.isReadSensor);
+    }
+    setBusy(false);
   }
 }

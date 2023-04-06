@@ -89,10 +89,10 @@ class AgoraService with ListenableServiceMixin {
   Future<String> getToken(bool isNew, AppUser user) async {
     DateTime now = DateTime.now();
     log.i("Getting token");
-    // log.i("Time diff: ${now.difference(user.tokenTime).inHours}");
+    log.i("Time diff: ${now.difference(user.tokenTime).inHours}");
     String? token = isNew
         ? null
-        : now.difference(user.tokenTime).inHours < 24
+        : now.difference(user.tokenTime).inHours < 12
             ? user.token
             : null;
     if (token == null) {
@@ -108,6 +108,7 @@ class AgoraService with ListenableServiceMixin {
         gender: user.gender,
         userRole: user.userRole,
       ));
+      _userService.fetchUser();
     }
     log.i("|||Token:$token|||");
     return token;
@@ -172,7 +173,7 @@ class AgoraService with ListenableServiceMixin {
   Future<String> fetchToken() async {
     log.i("Creating new token");
     http.Response response = await http.get(Uri.parse(
-        'https://agora-token-service-production-ae63.up.railway.app/rtc/$channel/publisher/uid/0/'));
+        'https://agora-token-service-production-ae63.up.railway.app/rtc/$channel/publisher/uid/0/?expiry=43200'));
     return jsonDecode(response.body)['rtcToken'];
   }
 }

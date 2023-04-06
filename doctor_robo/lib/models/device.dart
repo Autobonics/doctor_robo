@@ -1,41 +1,21 @@
 /// Device Sensor Reading model
 class DeviceReading {
-  double ph;
-  double waterFLow;
-  int totalWaterFlow;
-  int waterLevel;
-  double temp;
-  double ec;
+  double d1;
+  int d2;
   DateTime lastSeen;
 
   DeviceReading({
-    required this.ph,
-    required this.waterFLow,
-    required this.totalWaterFlow,
-    required this.waterLevel,
-    required this.temp,
+    required this.d1,
+    required this.d2,
     required this.lastSeen,
-    required this.ec,
   });
 
   factory DeviceReading.fromMap(Map data) {
     return DeviceReading(
-      ph: data['ph'] != null
-          ? (data['ph'] % 1 == 0 ? data['ph'] + 0.1 : data['ph'])
+      d1: data['d1'] != null
+          ? (data['d1'] % 1 == 0 ? data['d1'] + 0.1 : data['d1'])
           : 0.0,
-      waterFLow: data['flowRate'] != null
-          ? (data['flowRate'] % 1 == 0
-              ? data['flowRate'] + 0.1
-              : data['flowRate'])
-          : 0.0,
-      totalWaterFlow: data['totalMilliLitres'] ?? 0,
-      waterLevel: data['wtr_level'] ?? 0,
-      temp: data['temp'] != null
-          ? (data['temp'] % 1 == 0 ? data['temp'] + 0.1 : data['temp'])
-          : 0.0,
-      ec: data['ec'] != null
-          ? (data['ec'] % 1 == 0 ? data['ec'] + 0.1 : data['ec'])
-          : 0.0,
+      d2: data['d2'] ?? 0,
       lastSeen: DateTime.fromMillisecondsSinceEpoch(data['ts']),
     );
   }
@@ -43,43 +23,31 @@ class DeviceReading {
 
 /// Device control model
 class DeviceData {
-  int servo;
-  int stepper;
+  int servo1;
+  int servo2;
+  int servo3;
   bool isReadSensor;
-  bool r1;
-  bool r2;
-  bool r3;
-  bool r4;
 
   DeviceData({
-    required this.servo,
-    required this.stepper,
+    required this.servo1,
+    required this.servo2,
+    required this.servo3,
     required this.isReadSensor,
-    required this.r1,
-    required this.r2,
-    required this.r3,
-    required this.r4,
   });
 
   factory DeviceData.fromMap(Map data) {
     return DeviceData(
-      servo: data['servo'] != null ? data['servo'] : 0,
-      stepper: data['stepper'] != null ? data['stepper'] : 0,
+      servo1: data['servo1'] ?? 0,
+      servo2: data['servo2'] ?? 0,
+      servo3: data['servo3'] ?? 0,
       isReadSensor: data['isReadSensor'] ?? false,
-      r1: data['r1'] ?? false,
-      r2: data['r2'] ?? false,
-      r3: data['r3'] ?? false,
-      r4: data['r4'] ?? false,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'servo': servo,
-        'stepper': stepper,
+        'servo1': servo1,
+        'servo2': servo2,
+        'servo3': servo3,
         'isReadSensor': isReadSensor,
-        'r1': r1,
-        'r2': r2,
-        'r3': r3,
-        'r4': r4,
       };
 }

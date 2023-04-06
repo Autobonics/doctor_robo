@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '214754856600',
     projectId: 'doctor-robo',
     authDomain: 'doctor-robo.firebaseapp.com',
+    databaseURL: 'https://doctor-robo-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'doctor-robo.appspot.com',
     measurementId: 'G-S31M2K58B8',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:214754856600:android:2042f526ac24b6453b0aed',
     messagingSenderId: '214754856600',
     projectId: 'doctor-robo',
+    databaseURL: 'https://doctor-robo-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'doctor-robo.appspot.com',
   );
 
@@ -66,9 +68,9 @@ class DefaultFirebaseOptions {
     appId: '1:214754856600:ios:7454331f903939983b0aed',
     messagingSenderId: '214754856600',
     projectId: 'doctor-robo',
+    databaseURL: 'https://doctor-robo-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'doctor-robo.appspot.com',
-    iosClientId:
-        '214754856600-b4rvqqrodejgu4g3iao10rfsra6cg2l2.apps.googleusercontent.com',
+    iosClientId: '214754856600-b4rvqqrodejgu4g3iao10rfsra6cg2l2.apps.googleusercontent.com',
     iosBundleId: 'com.example.secretApp',
   );
 
@@ -77,9 +79,9 @@ class DefaultFirebaseOptions {
     appId: '1:214754856600:ios:7454331f903939983b0aed',
     messagingSenderId: '214754856600',
     projectId: 'doctor-robo',
+    databaseURL: 'https://doctor-robo-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'doctor-robo.appspot.com',
-    iosClientId:
-        '214754856600-b4rvqqrodejgu4g3iao10rfsra6cg2l2.apps.googleusercontent.com',
+    iosClientId: '214754856600-b4rvqqrodejgu4g3iao10rfsra6cg2l2.apps.googleusercontent.com',
     iosBundleId: 'com.example.secretApp',
   );
 }

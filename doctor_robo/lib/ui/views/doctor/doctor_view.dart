@@ -1,4 +1,5 @@
 import 'package:doctor_robo/services/agora_service.dart';
+import 'package:doctor_robo/ui/smart_widgets/device_control/device_control.dart';
 import 'package:doctor_robo/ui/widgets/loginRegister.dart';
 import 'package:doctor_robo/ui/widgets/videoCall.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class DoctorView extends StackedView<DoctorViewModel> {
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        title: const Text('Doctor'),
+        title: Text('Doctor ${viewModel.user?.fullName ?? ""}'),
         actions: [
           if (viewModel.user != null)
             IconButton(
@@ -32,37 +33,27 @@ class DoctorView extends StackedView<DoctorViewModel> {
             ? Container(
                 child: viewModel.isBusy
                     ? const Center(child: CircularProgressIndicator())
-                    : Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Card(
-                                color: Colors.teal.shade200,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Text(
-                                    "Welcome, Dr.${viewModel.user?.fullName}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
+                    : SingleChildScrollView(
+                        child: Center(
+                          child: Column(
+                            children: [
+                              if (viewModel.hasUser &&
+                                  viewModel.user!.userRole == "doctor")
+                                const DeviceControlView(),
+                              VideoCallView(
+                                onInit: viewModel.setAgora,
+                                videoCallButtonText: "Connect with patient",
+                                isStarted: viewModel.isVideoCallStarted,
+                                isPermissionsGranted:
+                                    viewModel.isPermissionsGranted,
+                                channel: channel,
+                                engine: viewModel.engine,
+                                remoteUid: viewModel.remoteUid,
+                                localUserJoined: viewModel.localUserJoined,
+                                onStop: viewModel.leaveCall,
                               ),
-                            ),
-                            VideoCallView(
-                              onInit: viewModel.setAgora,
-                              videoCallButtonText: "Connect with patient",
-                              isStarted: viewModel.isVideoCallStarted,
-                              isPermissionsGranted:
-                                  viewModel.isPermissionsGranted,
-                              channel: channel,
-                              engine: viewModel.engine,
-                              remoteUid: viewModel.remoteUid,
-                              localUserJoined: viewModel.localUserJoined,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
               )
@@ -84,4 +75,13 @@ class DoctorView extends StackedView<DoctorViewModel> {
 
   @override
   void onViewModelReady(DoctorViewModel viewModel) => viewModel.onModelReady();
+}
+
+class DeviceControl extends StatelessWidget {
+  const DeviceControl({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
 }
